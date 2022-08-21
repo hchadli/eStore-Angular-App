@@ -37,4 +37,9 @@ export class RecipeDetailComponent implements OnInit {
     this.router.navigate(['edit'], {relativeTo: this.route}); // Straight forward path to reach the edit mode 
   }
 
+  onDeleteRecipe() {
+    this.recipeService.deleteRecipe(this.id)
+    this.router.navigate([''], {relativeTo: this.route});
+  }
+
 }
