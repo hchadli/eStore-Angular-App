@@ -1,32 +1,20 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthComponent } from "./auth/auth/auth.component";
-import { AuthGuard } from "./auth/auth/auth.guard";
-import { RecipeDetailComponent } from "./recipes/recipe-detail/recipe-detail.component";
-import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
-import { RecipeStartComponent } from "./recipes/recipe-start/recipe-start.component";
-import { RecipesResolverService } from "./recipes/recipes-resolver.service";
-import { RecipesComponent } from "./recipes/recipes.component";
-import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
+import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 
-const appRoutes : Routes = [
 
+const appRoutes : Routes = 
+[
     {path: '', redirectTo: '/recipes', pathMatch : "full"},
-    {path: 'recipes', component: RecipesComponent, canActivate: [AuthGuard],
-    children : [
-        {path: '', component : RecipeStartComponent},
-        {path: 'new', component : RecipeEditComponent},
-        {path: ':id', component : RecipeDetailComponent, resolve: [RecipesResolverService]},
-        {path: ':id/edit', component : RecipeEditComponent, resolve: [RecipesResolverService]},
-    ]},
-    {path: 'shopping-list', component: ShoppingListComponent},
-    {path: 'auth', component: AuthComponent}
 
-]
+    // What really do the next lines, they separate in a new bundle the Modules and all their dependencies, so we can access them lazily and only upon demand
+    {path: 'recipes', loadChildren: () => import('./recipes/recipes.module').then((module) => module.RecipesModule)},
+    {path: 'shopping-list', loadChildren: () => import('./shopping-list/shopping-list.module').then((module) => module.ShoppingListModule)},
+    {path: 'auth', loadChildren: () => import('./auth/auth.module').then((module) => module.AuthModule)},
+];
 
 @NgModule({
-    imports : [RouterModule.forRoot(appRoutes)],
-    exports : [RouterModule]    // w'e're exporting this in order to be imported at app-module level
+    imports : [RouterModule.forRoot(appRoutes , {preloadingStrategy: PreloadAllModules})],
+    exports : [RouterModule]    // we're exporting this in order to be imported at app-module level
 })
 export class AppRoutingModule{
 

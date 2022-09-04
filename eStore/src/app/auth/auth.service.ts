@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { User } from "../user.model";
+import { User } from "./user.model";
 
 export interface AuthResponseData{
     kind : string;
@@ -63,7 +63,7 @@ export class AuthService{
         if(loadedUser.token){
             this.user.next(loadedUser);
 
-            const remainingTime = new Date(loadedUser.token).getTime() - new Date().getTime();
+            const remainingTime = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(remainingTime);
         }
     }
