@@ -7,24 +7,20 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core-module';
 import { LoggingService } from './logging.service';
-
-
-
+import { StoreModule } from '@ngrx/store';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent
-  ],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,   
+    AppRoutingModule,
     HttpClientModule,
     SharedModule,
     CoreModule,
+    StoreModule.forRoot({shoppingList : shoppingListReducer})
   ],
   bootstrap: [AppComponent],
-  providers: [LoggingService]
-
+  providers: [LoggingService],
 })
-export class AppModule { }
+export class AppModule {}
