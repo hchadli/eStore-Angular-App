@@ -23,7 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     RouterModule,
     ReactiveFormsModule,
     RecipesRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class RecipesModule { }
+export class RecipesModule {}
